@@ -237,7 +237,7 @@ class VideoStreamer:
 
 # --- PREPROCESSING ---
 
-def process_resize(w, h, resize):
+def process_resize(w, h, resize, force_divisible_by_8=True):
     assert(len(resize) > 0 and len(resize) <= 2)
     if len(resize) == 1 and resize[0] > -1:
         scale = resize[0] / max(h, w)
@@ -246,6 +246,10 @@ def process_resize(w, h, resize):
         w_new, h_new = w, h
     else:  # len(resize) == 2:
         w_new, h_new = resize[0], resize[1]
+
+    if force_divisible_by_8:
+        w_new = int(int(w_new / 8) * 8)
+        h_new = int(int(h_new / 8) * 8)
 
     # Issue warning if resolution is too small or too large.
     if max(w_new, h_new) < 160:

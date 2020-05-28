@@ -99,6 +99,22 @@ if __name__ == '__main__':
         help='SuperPoint Non Maximum Suppression (NMS) radius'
         ' (Must be positive)')
     parser.add_argument(
+        '--refinement_radius', type=int, default=2,
+        help='Keypoint subpixel refinement radius.')
+    parser.add_argument(
+        '--adapt_num', type=int, default=0,
+        help='How many times to do homographic adaptation '
+             '(>0 will use ha_superpoint.py)')
+    parser.add_argument(
+        '--adapt_seed', type=int, default=0,
+        help='Random seed for homographic adaptation.')
+    parser.add_argument(
+        '--adapt_viz', action='store_true',
+        help='If true, dump out a debug image to ha_superpoint.py')
+    parser.add_argument(
+        '--adapt_parallel', action='store_true',
+        help='If true, batch all the adaptations and run in parallel.')
+    parser.add_argument(
         '--sinkhorn_iterations', type=int, default=20,
         help='Number of Sinkhorn iterations performed by SuperGlue')
     parser.add_argument(
@@ -136,7 +152,12 @@ if __name__ == '__main__':
         'superpoint': {
             'nms_radius': opt.nms_radius,
             'keypoint_threshold': opt.keypoint_threshold,
-            'max_keypoints': opt.max_keypoints
+            'max_keypoints': opt.max_keypoints,
+            'refinement_radius': opt.refinement_radius,
+            'adapt_num': opt.adapt_num,
+            'adapt_seed': opt.adapt_seed,
+            'adapt_viz': opt.adapt_viz,
+            'adapt_parallel': opt.adapt_parallel,
         },
         'superglue': {
             'weights': opt.superglue,
